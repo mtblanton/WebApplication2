@@ -4,11 +4,12 @@ using WebApplication2.Models.Transactions;
 
 namespace Account_Service_Tests
 {
+    [TestClass()]
     internal class TestAccountService
     {
         private string _ActivationCode;
 
-        [TestMethod]
+        [TestMethod()]
         public void AccountActivate_ShouldReturnTransactionResult()
         {
             var newAccountTransaction = new NewAccountTransaction

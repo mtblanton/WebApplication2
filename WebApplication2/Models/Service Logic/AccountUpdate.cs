@@ -13,6 +13,19 @@ namespace WebApplication2.Models.Service_Logic
             var db = new Account_ServiceEntities();
             var resultList = new List<TransactionResult>();
 
+            if (transaction.ActivationCode == null)
+            {
+                resultList.Add(
+                    new TransactionResult
+                    {
+                        TransSuccess = false,
+                        TransType = "Account Update",
+                        TransValue = "Null activation code. Ensure the request is properly formatted."
+                    }
+                    );
+                return resultList;
+            }
+
 
             //This assumes that this ActivationCode isn't also in UserAccounts
             // This also assumes that activating an account and updating an account are mutually exclusive.
@@ -68,7 +81,11 @@ namespace WebApplication2.Models.Service_Logic
                     var userAccount = db.UserAccounts.Find(guid);
                     if (transaction.UpdateEmail)
                     {
-                        var transactionResult = new TransactionResult {TransType = "Email Update"};
+                        var transactionResult = new TransactionResult
+                        {
+                            TransType = "Email Update",
+                            TransValue = transaction.EmailAddress
+                        };
                         try
                         {
                             userAccount.EmailAddress = transaction.EmailAddress;
