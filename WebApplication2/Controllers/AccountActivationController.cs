@@ -15,7 +15,7 @@ namespace WebApplication2.Controllers
         // api/AccountActivation/put
         public TransactionResult Post(NewAccountTransaction newAccountTransaction)
         {
-            return AccountActivation.ActivateAccount(newAccountTransaction);
+                return AccountActivation.ActivateAccount(newAccountTransaction);
         }
     }
 }

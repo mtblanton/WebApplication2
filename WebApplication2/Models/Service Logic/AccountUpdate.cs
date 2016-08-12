@@ -17,11 +17,12 @@ namespace WebApplication2.Models.Service_Logic
             List<TransactionResult> resultList = new List<TransactionResult>();
             
 
-            //TODO: This assumes that this ActivationCode isn't also in UserAccounts, maybe set a check for this.
-            //  This also assumes that activating an account and updating an account are mutually exclusive.
+            //This assumes that this ActivationCode isn't also in UserAccounts
+            // This also assumes that activating an account and updating an account are mutually exclusive.
             if (db.ActivationPendings.Any(a => a.ActivationCode == transaction.ActivationCode)) //if ActivationCode is a pending account
             {
                 ActivationPending activationPending = db.ActivationPendings.Find(transaction.ActivationCode);
+                TransactionResult transactionResult = new TransactionResult{TransType = "Account Activation"};
                 UserAccount userAccount = new UserAccount
                 {
                     ActivationCode = activationPending.ActivationCode,
@@ -43,10 +44,21 @@ namespace WebApplication2.Models.Service_Logic
                     db.Entry(activationPending).State = EntityState.Deleted;
                     db.SaveChanges();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    
-                    throw;
+                    Error error = new Error
+                    {
+                        Application = "AccountUpdate Service",
+                        ErrDescription = e.Message,
+                        ErrDate = DateTime.Now
+                    };
+                    db.Errors.Add(error);
+                    db.SaveChanges();
+                    transactionResult.TransSuccess = false;
+                }
+                finally
+                {
+                    resultList.Add(transactionResult);
                 }
                 
             }
@@ -65,9 +77,17 @@ namespace WebApplication2.Models.Service_Logic
                             userAccount.EmailAddress = transaction.EmailAddress;
                             db.SaveChanges();
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             transactionResult.TransSuccess = false;
+                            Error error = new Error
+                            {
+                                Application = "AccountUpdate Service - Update Email",
+                                ErrDescription = e.Message,
+                                ErrDate = DateTime.Now
+                            };
+                            db.Errors.Add(error);
+                            db.SaveChanges();
                         }
                         finally
                         {
@@ -88,10 +108,17 @@ namespace WebApplication2.Models.Service_Logic
                             userAccount.LastName = transaction.LastName;
                             db.SaveChanges();
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             transactionResult.TransSuccess = false;
-                            //TODO: write to error table
+                            Error error = new Error
+                            {
+                                Application = "AccountUpdate Service - Update Name",
+                                ErrDescription = e.Message,
+                                ErrDate = DateTime.Now
+                            };
+                            db.Errors.Add(error);
+                            db.SaveChanges();
                         }
                         finally
                         {
@@ -112,10 +139,17 @@ namespace WebApplication2.Models.Service_Logic
                             userAccount.IdActive = false;
                             userAccount.InactiveDate = DateTime.Now;
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             transactionResult.TransSuccess = false;
-                            //TODO: write to error table
+                            Error error = new Error
+                            {
+                                Application = "AccountUpdate Service - Disable Account",
+                                ErrDescription = e.Message,
+                                ErrDate = DateTime.Now
+                            };
+                            db.Errors.Add(error);
+                            db.SaveChanges();
                         }
                         finally
                         {
@@ -123,8 +157,6 @@ namespace WebApplication2.Models.Service_Logic
                         }
                     }
                 }
-                //if not in UserAccounts
-                //TODO: need to return transaction result with resutls
             }
             return resultList;
         }
