@@ -1,0 +1,9 @@
+{
+  "UpdateName": false,
+  "UpdateEmail": false,
+  "DisableAccount": true,
+  "FirstName": "Test",
+  "LastName": "User",
+  "EmailAddress": "nisi.Cum.sociis@mauris.co.uk",
+  "ActivationCode": "3803fa99-6836-40cf-b1f4-070652c4bcd3"
+}

@@ -1,0 +1,9 @@
+{
+  "GroupNumber": "99999",
+  "TaxId": "7199999-99",
+  "GroupName": "ACME, Inc.",
+  "FirstName": "John",
+  "LastName": "Doe",
+  "EmailAddress": "johndoe@yahoo.com",
+  "ChiefAdmin": true
+}

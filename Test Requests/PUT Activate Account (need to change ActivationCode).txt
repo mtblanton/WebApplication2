@@ -1,0 +1,9 @@
+{
+  "UpdateName": false,
+  "UpdateEmail": false,
+  "DisableAccount": false,
+  "FirstName": "John",
+  "LastName": "Doe",
+  "EmailAddress": "johndoe@asdf.com",
+  "ActivationCode": "efe5fa73-fd55-443b-9ae9-3eeec07bbf5c"
+}
