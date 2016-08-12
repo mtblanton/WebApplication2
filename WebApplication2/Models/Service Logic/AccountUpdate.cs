@@ -2,28 +2,26 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using WebApplication2.Models.Transactions;
 
 namespace WebApplication2.Models.Service_Logic
 {
     public class AccountUpdate
     {
-        
-
         public static IEnumerable<TransactionResult> UpdateAccount(UpdateAccountTransaction transaction)
         {
-            Account_ServiceEntities db = new Account_ServiceEntities();
-            List<TransactionResult> resultList = new List<TransactionResult>();
-            
+            var db = new Account_ServiceEntities();
+            var resultList = new List<TransactionResult>();
+
 
             //This assumes that this ActivationCode isn't also in UserAccounts
             // This also assumes that activating an account and updating an account are mutually exclusive.
-            if (db.ActivationPendings.Any(a => a.ActivationCode == transaction.ActivationCode)) //if ActivationCode is a pending account
+            if (db.ActivationPendings.Any(a => a.ActivationCode == transaction.ActivationCode))
+                //if ActivationCode is a pending account
             {
-                ActivationPending activationPending = db.ActivationPendings.Find(transaction.ActivationCode);
-                TransactionResult transactionResult = new TransactionResult{TransType = "Account Activation"};
-                UserAccount userAccount = new UserAccount
+                var activationPending = db.ActivationPendings.Find(transaction.ActivationCode);
+                var transactionResult = new TransactionResult {TransType = "Account Activation"};
+                var userAccount = new UserAccount
                 {
                     ActivationCode = activationPending.ActivationCode,
                     UserId = new Guid(activationPending.ActivationCode),
@@ -46,7 +44,7 @@ namespace WebApplication2.Models.Service_Logic
                 }
                 catch (Exception e)
                 {
-                    Error error = new Error
+                    var error = new Error
                     {
                         Application = "AccountUpdate Service",
                         ErrDescription = e.Message,
@@ -60,18 +58,17 @@ namespace WebApplication2.Models.Service_Logic
                 {
                     resultList.Add(transactionResult);
                 }
-                
             }
             else
             {
-                Guid guid = new Guid(transaction.ActivationCode);
+                var guid = new Guid(transaction.ActivationCode);
 
                 if (db.UserAccounts.Any(a => a.UserId == guid)) //If account is in UserAccount table
                 {
-                    UserAccount userAccount = db.UserAccounts.Find(guid);
+                    var userAccount = db.UserAccounts.Find(guid);
                     if (transaction.UpdateEmail)
                     {
-                        TransactionResult transactionResult = new TransactionResult { TransType = "Email Update" };
+                        var transactionResult = new TransactionResult {TransType = "Email Update"};
                         try
                         {
                             userAccount.EmailAddress = transaction.EmailAddress;
@@ -80,7 +77,7 @@ namespace WebApplication2.Models.Service_Logic
                         catch (Exception e)
                         {
                             transactionResult.TransSuccess = false;
-                            Error error = new Error
+                            var error = new Error
                             {
                                 Application = "AccountUpdate Service - Update Email",
                                 ErrDescription = e.Message,
@@ -97,7 +94,7 @@ namespace WebApplication2.Models.Service_Logic
 
                     if (transaction.UpdateName)
                     {
-                        TransactionResult transactionResult = new TransactionResult()
+                        var transactionResult = new TransactionResult
                         {
                             TransType = "Name Change",
                             TransValue = transaction.FirstName + " " + transaction.LastName
@@ -111,7 +108,7 @@ namespace WebApplication2.Models.Service_Logic
                         catch (Exception e)
                         {
                             transactionResult.TransSuccess = false;
-                            Error error = new Error
+                            var error = new Error
                             {
                                 Application = "AccountUpdate Service - Update Name",
                                 ErrDescription = e.Message,
@@ -128,7 +125,7 @@ namespace WebApplication2.Models.Service_Logic
 
                     if (transaction.DisableAccount)
                     {
-                        TransactionResult transactionResult = new TransactionResult
+                        var transactionResult = new TransactionResult
                         {
                             TransType = "Disable Acccount",
                             TransValue = transaction.ActivationCode
@@ -138,11 +135,12 @@ namespace WebApplication2.Models.Service_Logic
                         {
                             userAccount.IdActive = false;
                             userAccount.InactiveDate = DateTime.Now;
+                            db.SaveChanges();
                         }
                         catch (Exception e)
                         {
                             transactionResult.TransSuccess = false;
-                            Error error = new Error
+                            var error = new Error
                             {
                                 Application = "AccountUpdate Service - Disable Account",
                                 ErrDescription = e.Message,

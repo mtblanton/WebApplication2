@@ -1,6 +1,4 @@
-﻿
-
-namespace WebApplication2.Models.Transactions
+﻿namespace WebApplication2.Models.Transactions
 {
     public class UpdateAccountTransaction : Transaction
     {

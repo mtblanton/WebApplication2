@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Web;
 using WebApplication2.Models.Transactions;
 
 namespace WebApplication2.Models.Service_Logic
@@ -11,13 +9,12 @@ namespace WebApplication2.Models.Service_Logic
     {
         public static TransactionResult ActivateAccount(NewAccountTransaction newAccountTransaction)
         {
-
-            Account_ServiceEntities db = new Account_ServiceEntities();
-            TransactionResult transactionResult = new TransactionResult { TransType = "Account Activation" };
+            var db = new Account_ServiceEntities();
+            var transactionResult = new TransactionResult {TransType = "Account Activation"};
 
             if (newAccountTransaction == null)
             {
-                Error error = new Error
+                var error = new Error
                 {
                     Application = "AccountUpdate Service",
                     ErrDescription = "newAccountTransaction is null. Ensure the request is properly formatted.",
@@ -33,10 +30,10 @@ namespace WebApplication2.Models.Service_Logic
                     TransValue = "Unable to process request. Ensure the request is formatted properly."
                 };
             }
-            
+
             if (!newAccountTransaction.TaxId.Contains('-')) //if TaxId is a valid TaxId
             {
-                ActivationPending activationPending = new ActivationPending
+                var activationPending = new ActivationPending
                 {
                     ActivationCode = Guid.NewGuid().ToString(),
                     ChiefAdmin = newAccountTransaction.ChiefAdmin,
@@ -54,8 +51,8 @@ namespace WebApplication2.Models.Service_Logic
                     db.ActivationPendings.Add(activationPending);
                     db.SaveChanges();
                     transactionResult.TransValue = activationPending.ActivationCode;
-                    MailMessage mail = new MailMessage("email@email.com", newAccountTransaction.EmailAddress);
-                    SmtpClient smtpClient = new SmtpClient
+                    var mail = new MailMessage("email@email.com", newAccountTransaction.EmailAddress);
+                    var smtpClient = new SmtpClient
                     {
                         Port = 25,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
@@ -69,7 +66,7 @@ namespace WebApplication2.Models.Service_Logic
                 }
                 catch (Exception e)
                 {
-                    Error error = new Error
+                    var error = new Error
                     {
                         Application = "AccountActivation Service",
                         ErrDescription = e.Message,
@@ -85,7 +82,6 @@ namespace WebApplication2.Models.Service_Logic
                         TransValue = e.Message
                     };
                 }
-
             }
 
             else
@@ -93,7 +89,7 @@ namespace WebApplication2.Models.Service_Logic
                 transactionResult.TransSuccess = false;
                 transactionResult.TransValue = "Invalid tax ID";
 
-                Error error = new Error
+                var error = new Error
                 {
                     Application = "AccountActivation Service",
                     ErrDescription = "Invalid tax ID",

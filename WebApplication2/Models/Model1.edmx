@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Account_ServiceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Account_ServiceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012"
+              Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActivationPending">
           <Key>
             <PropertyRef Name="ActivationCode" />
@@ -50,23 +54,31 @@ warning 6002: The table/view 'Account_Service.dbo.Errors' does not have a primar
           <EntitySet Name="ActivationPending" EntityType="Self.ActivationPending" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccounts" EntityType="Self.UserAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Errors" EntityType="Self.Errors" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Errors].[Application] AS [Application], 
-    [Errors].[ErrDescription] AS [ErrDescription], 
-    [Errors].[ErrDate] AS [ErrDate]
-    FROM [dbo].[Errors] AS [Errors]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [Errors].[Application] AS [Application],
+              [Errors].[ErrDescription] AS [ErrDescription],
+              [Errors].[ErrDate] AS [ErrDate]
+              FROM [dbo].[Errors] AS [Errors]
+            </DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Account_ServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Account_ServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ActivationPending">
           <Key>
             <PropertyRef Name="ActivationCode" />
           </Key>
-          <Property Name="ActivationCode" Type="String" MaxLength="36" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="GroupNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ActivationCode" Type="String" MaxLength="36" FixedLength="true" Unicode="false"
+                    Nullable="false" />
+          <Property Name="GroupNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="TaxId" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -80,14 +92,17 @@ warning 6002: The table/view 'Account_Service.dbo.Errors' does not have a primar
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="GroupNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GroupNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="ChiefAdmin" Type="Boolean" Nullable="false" />
           <Property Name="IdActive" Type="Boolean" Nullable="false" />
           <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ActivationCode" Type="String" MaxLength="36" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ActivationCode" Type="String" MaxLength="36" FixedLength="true" Unicode="false"
+                    Nullable="false" />
           <Property Name="InactiveDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Error">
@@ -96,8 +111,10 @@ warning 6002: The table/view 'Account_Service.dbo.Errors' does not have a primar
             <PropertyRef Name="ErrDescription" />
             <PropertyRef Name="ErrDate" />
           </Key>
-          <Property Name="Application" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ErrDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Application" Type="String" MaxLength="50" FixedLength="false" Unicode="false"
+                    Nullable="false" />
+          <Property Name="ErrDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false"
+                    Nullable="false" />
           <Property Name="ErrDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityContainer Name="Account_ServiceEntities" annotation:LazyLoadingEnabled="true">
@@ -110,7 +127,8 @@ warning 6002: The table/view 'Account_Service.dbo.Errors' does not have a primar
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Account_ServiceModelStoreContainer" CdmEntityContainer="Account_ServiceEntities">
+        <EntityContainerMapping StorageEntityContainer="Account_ServiceModelStoreContainer"
+                                CdmEntityContainer="Account_ServiceEntities">
           <EntitySetMapping Name="ActivationPendings">
             <EntityTypeMapping TypeName="Account_ServiceModel.ActivationPending">
               <MappingFragment StoreEntitySet="ActivationPending">

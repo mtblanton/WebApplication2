@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WebApplication2.Controllers;
-using WebApplication2.Models;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApplication2.Models.Service_Logic;
 using WebApplication2.Models.Transactions;
 
 namespace Account_Service_Tests
 {
-    class TestAccountService
+    internal class TestAccountService
     {
         private string _ActivationCode;
 
         [TestMethod]
         public void AccountActivate_ShouldReturnTransactionResult()
         {
-            NewAccountTransaction newAccountTransaction = new NewAccountTransaction
+            var newAccountTransaction = new NewAccountTransaction
             {
                 ChiefAdmin = true,
                 EmailAddress = "johndoe@yahoo.com",
@@ -29,7 +22,7 @@ namespace Account_Service_Tests
                 TaxId = "719999999"
             };
 
-            TransactionResult activateTransactionResult = AccountActivation.ActivateAccount(newAccountTransaction);
+            var activateTransactionResult = AccountActivation.ActivateAccount(newAccountTransaction);
             Assert.IsNotNull(activateTransactionResult);
             Assert.AreEqual(activateTransactionResult.TransSuccess, true);
             Assert.AreEqual(activateTransactionResult.TransType, "Account Activation");
@@ -40,7 +33,7 @@ namespace Account_Service_Tests
         [TestMethod]
         public void AccountUpdate_ShouldReturnTransactionResult()
         {
-            UpdateAccountTransaction activateUserAccountTransaction = new UpdateAccountTransaction
+            var activateUserAccountTransaction = new UpdateAccountTransaction
             {
                 UpdateName = false,
                 UpdateEmail = false,
@@ -51,7 +44,7 @@ namespace Account_Service_Tests
                 EmailAddress = "johndoe@yahoo.com"
             };
 
-            IEnumerable<TransactionResult> accountActivateResult = AccountUpdate.UpdateAccount(activateUserAccountTransaction);
+            var accountActivateResult = AccountUpdate.UpdateAccount(activateUserAccountTransaction);
             Assert.IsNotNull(accountActivateResult);
         }
     }
