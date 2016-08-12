@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Account_ServiceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActivationPending">
+          <Key>
+            <PropertyRef Name="ActivationCode" />
+          </Key>
+          <Property Name="ActivationCode" Type="char" MaxLength="36" Nullable="false" />
+          <Property Name="GroupNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TaxId" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ChiefAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Account_Service.dbo.Errors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Errors">
+          <Key>
+            <PropertyRef Name="Application" />
+            <PropertyRef Name="ErrDescription" />
+            <PropertyRef Name="ErrDate" />
+          </Key>
+          <Property Name="Application" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ErrDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ErrDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAccounts">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GroupNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChiefAdmin" Type="bit" Nullable="false" />
+          <Property Name="IdActive" Type="bit" Nullable="false" />
+          <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+          <Property Name="ActivationCode" Type="char" MaxLength="36" Nullable="false" />
+          <Property Name="InactiveDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Account_ServiceModelStoreContainer">
+          <EntitySet Name="ActivationPending" EntityType="Self.ActivationPending" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAccounts" EntityType="Self.UserAccounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Errors" EntityType="Self.Errors" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Errors].[Application] AS [Application], 
+    [Errors].[ErrDescription] AS [ErrDescription], 
+    [Errors].[ErrDate] AS [ErrDate]
+    FROM [dbo].[Errors] AS [Errors]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Account_ServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ActivationPending">
+          <Key>
+            <PropertyRef Name="ActivationCode" />
+          </Key>
+          <Property Name="ActivationCode" Type="String" MaxLength="36" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="GroupNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TaxId" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChiefAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="GroupNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ChiefAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="IdActive" Type="Boolean" Nullable="false" />
+          <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActivationCode" Type="String" MaxLength="36" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="InactiveDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Error">
+          <Key>
+            <PropertyRef Name="Application" />
+            <PropertyRef Name="ErrDescription" />
+            <PropertyRef Name="ErrDate" />
+          </Key>
+          <Property Name="Application" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="Account_ServiceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ActivationPendings" EntityType="Self.ActivationPending" />
+          <EntitySet Name="UserAccounts" EntityType="Self.UserAccount" />
+          <EntitySet Name="Errors" EntityType="Self.Error" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Account_ServiceModelStoreContainer" CdmEntityContainer="Account_ServiceEntities">
+          <EntitySetMapping Name="ActivationPendings">
+            <EntityTypeMapping TypeName="Account_ServiceModel.ActivationPending">
+              <MappingFragment StoreEntitySet="ActivationPending">
+                <ScalarProperty Name="ChiefAdmin" ColumnName="ChiefAdmin" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="TaxId" ColumnName="TaxId" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccounts">
+            <EntityTypeMapping TypeName="Account_ServiceModel.UserAccount">
+              <MappingFragment StoreEntitySet="UserAccounts">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ChiefAdmin" ColumnName="ChiefAdmin" />
+                <ScalarProperty Name="IdActive" ColumnName="IdActive" />
+                <ScalarProperty Name="ActiveDate" ColumnName="ActiveDate" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="InactiveDate" ColumnName="InactiveDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Errors">
+            <EntityTypeMapping TypeName="Account_ServiceModel.Error">
+              <MappingFragment StoreEntitySet="Errors">
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="ErrDescription" ColumnName="ErrDescription" />
+                <ScalarProperty Name="ErrDate" ColumnName="ErrDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
